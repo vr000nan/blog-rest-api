@@ -16,12 +16,26 @@ function save(req, res) {
         });
     }).catch(error => {
         res.status(500).json({
-            message: "Something went wrong...",
+            message: "Something went wrong while creating post...",
             error: error
         });
     });
 }
 
+function show(req, res) {
+    const id = req.params.id;
+
+    models.Post.findByPk(id).then(result => {
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong while getting post...",
+            error: error
+        });
+    })
+}
+
 module.exports = {
-    save: save
+    save: save,
+    show: show
 }
