@@ -6,5 +6,6 @@ const router = express.Router();
 router.post("/", postsController.save);
 router.get("/", postsController.index);
 router.get("/:id", postsController.show);
+router.patch("/:id", postsController.update);
 
 module.exports = router;

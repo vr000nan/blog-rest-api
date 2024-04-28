@@ -46,8 +46,33 @@ function index(req, res) {
     });
 }
 
+function update(req, res) {
+    const id = req.params.id;
+    const updatedPost = {
+        title: req.body.title,
+        content: req.body.content,
+        imageUrl: req.body.image_url,
+        categoryId: req.body.category_id
+    }
+
+    const userId = 1;
+
+    models.Post.update(updatedPost, { where: { id: id, userId: userId } }).then(result => {
+        res.status(200).json({
+            message: "Post updated successfully!",
+            post: updatedPost
+        })
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong while updating the post...",
+            error: error
+        });
+    })
+}
+
 module.exports = {
     save: save,
     show: show,
-    index: index
+    index: index,
+    update: update
 }
