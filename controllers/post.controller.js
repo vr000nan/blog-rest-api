@@ -26,7 +26,13 @@ function show(req, res) {
     const id = req.params.id;
 
     models.Post.findByPk(id).then(result => {
-        res.status(200).json(result);
+        if (result) {
+            res.status(200).json(result);  
+        } else {
+            res.status(404).json({
+                message: "Post not found!"
+            })
+        }
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong while getting post...",
@@ -70,9 +76,26 @@ function update(req, res) {
     })
 }
 
+function destroy(req, res) {
+    const id = req.params.id;
+    const userId = 1;
+
+    models.Post.destroy({ where: { id, userId } }).then(result => {
+        res.status(200).json({
+            message: "Post deleted successfully!",
+        })
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong while deleting the post...",
+            error: error
+        })
+    });
+}
+
 module.exports = {
     save: save,
     show: show,
     index: index,
-    update: update
+    update: update,
+    destroy: destroy
 }
