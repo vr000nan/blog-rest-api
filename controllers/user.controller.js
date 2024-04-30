@@ -59,7 +59,7 @@ function login(req, res) {
                     const token = jwt.sign({
                         email: user.email,
                         userId: user.id
-                    }, 'secret', function (err, token) {
+                    }, process.env.JWT_KEY, function (err, token) {
                         res.status(200).json({
                             message: "Logged in successfully!",
                             token: token
@@ -74,7 +74,8 @@ function login(req, res) {
         }
     }).catch(error => {
         res.status(500).json({
-            message: "Something went wrong while logging in..."
+            message: "Something went wrong while logging in...",
+            error: error
         })
     });
 }

@@ -1,0 +1,5 @@
+{
+    "env": {
+        "JWI_KEY": "secret"
+    }
+}
