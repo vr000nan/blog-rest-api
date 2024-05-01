@@ -55,20 +55,22 @@ function login(req, res) {
             })
         } else {
             bcryptjs.compare(req.body.password, user.password, function (err, result) {
-                if (result) {
+                try {
                     const token = jwt.sign({
                         email: user.email,
                         userId: user.id
-                    }, process.env.JWT_KEY, function (err, token) {
-                        res.status(200).json({
-                            message: "Logged in successfully!",
-                            token: token
-                        })
+                    }, process.env.JWT_KEY);
+                
+                    res.status(200).json({
+                        message: "Logged in successfully!",
+                        token: token
                     });
-                } else {
-                    res.status(401).json({
-                        message: "Invalid credentials!"
-                    })
+                } catch (err) {
+                    console.error("JWT Signing error:", err);
+                    res.status(500).json({
+                        message: "Error generating token",
+                        error: err.message
+                    });
                 }
             });
         }
