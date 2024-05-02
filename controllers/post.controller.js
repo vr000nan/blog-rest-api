@@ -7,7 +7,7 @@ function save(req, res) {
         content: req.body.content,
         imageUrl: req.body.image_url,
         categoryId: req.body.category_id,
-        userId: 1
+        userId: req.userData.userId
     };
 
     const schema = {
@@ -86,7 +86,7 @@ function update(req, res) {
         categoryId: req.body.category_id
     }
 
-    const userId = 1;
+    const userId = req.userData.userId;
 
     models.Post.update(updatedPost, { where: { id: id, userId: userId } }).then(result => {
         res.status(200).json({
@@ -123,7 +123,7 @@ function update(req, res) {
 
 function destroy(req, res) {
     const id = req.params.id;
-    const userId = 1;
+    const userId = req.userData.userId;
 
     models.Post.destroy({ where: { id, userId } }).then(result => {
         res.status(200).json({
